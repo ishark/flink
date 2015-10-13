@@ -18,7 +18,14 @@ package isha.trial.hello.world;
  * limitations under the License.
  */
 
+import java.util.HashMap;
+
+import org.apache.flink.api.common.functions.FilterFunction;
+import org.apache.flink.api.common.functions.FlatMapFunction;
+import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
+import org.apache.flink.api.java.tuple.Tuple9;
+import org.apache.flink.util.Collector;
 
 /**
  * Skeleton for a Flink Job.
@@ -37,11 +44,41 @@ import org.apache.flink.api.java.ExecutionEnvironment;
  */
 public class Job {
 
+	enum Type {
+		PositionReport,
+		NoReport,
+		AccountBalanceQuery,
+		DailyExpenditureQuery, 
+		TravelTimeQuery
+	}
+	
+	static class InputQuery {
+		public Type type;
+		public Integer time;
+		public Integer vID;
+		public Integer speed;
+		public Integer xWay;
+		public Integer lane; 
+		public Integer dir;
+		public Integer segment; 
+		public Integer position; 
+	}
+	
+	HashMap<Integer, Tuple9<Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer>> lastVidReport = new HashMap<Integer, Tuple9<Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer>>();
+	
 	public static void main(String[] args) throws Exception {
 		// set up the execution environment
 		final ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
 
+		DataSet<Tuple9<Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer>> input = env.readCsvFile("/media/isha/linear/data/10m1x.dat")
+				.fieldDelimiter(",")
+				.types(Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class);
 
+		
+		DataSet<Tuple9<Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer>> reports = 
+				input.filter(new Type0QueryFilter());
+		
+		//reports.flatMap(new);
 		/**
 		 * Here, you can start creating your execution plan for Flink.
 		 *
@@ -64,8 +101,24 @@ public class Job {
 		 * http://flink.apache.org/docs/latest/examples.html
 		 *
 		 */
-
+		reports.print();
 		// execute program
-		env.execute("Flink Java API Skeleton");
+		//env.execute("Flink Java API Skeleton");
+	}
+	
+//	public static final class storeLastVidReport implements 
+//	FlatMapFunction<Tuple9<Integer,Integer,Integer,Integer,Integer,Integer,Integer,Integer,Integer>, R>() {
+//		
+//	}
+	
+	public static final class Type0QueryFilter implements 
+	FilterFunction<Tuple9<Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer>> {
+		@Override
+		public boolean filter(
+				Tuple9<Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer> value)
+				throws Exception {
+			
+			return value.f0 == 0;
+		}
 	}
 }
