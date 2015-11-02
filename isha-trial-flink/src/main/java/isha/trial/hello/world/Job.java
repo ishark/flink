@@ -21,11 +21,9 @@ package isha.trial.hello.world;
 import java.util.HashMap;
 
 import org.apache.flink.api.common.functions.FilterFunction;
-import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple9;
-import org.apache.flink.util.Collector;
 
 /**
  * Skeleton for a Flink Job.
@@ -44,25 +42,25 @@ import org.apache.flink.util.Collector;
  */
 public class Job {
 
-	enum Type {
-		PositionReport,
-		NoReport,
-		AccountBalanceQuery,
-		DailyExpenditureQuery, 
-		TravelTimeQuery
-	}
-	
-	static class InputQuery {
-		public Type type;
-		public Integer time;
-		public Integer vID;
-		public Integer speed;
-		public Integer xWay;
-		public Integer lane; 
-		public Integer dir;
-		public Integer segment; 
-		public Integer position; 
-	}
+//	enum Type {
+//		PositionReport,
+//		NoReport,
+//		AccountBalanceQuery,
+//		DailyExpenditureQuery, 
+//		TravelTimeQuery
+//	}
+//	
+//	static class InputQuery {
+//		public Type type;
+//		public Integer time;
+//		public Integer vID;
+//		public Integer speed;
+//		public Integer xWay;
+//		public Integer lane; 
+//		public Integer dir;
+//		public Integer segment; 
+//		public Integer position; 
+//	}
 	
 	HashMap<Integer, Tuple9<Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer>> lastVidReport = new HashMap<Integer, Tuple9<Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer, Integer>>();
 	
