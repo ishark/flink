@@ -1,5 +1,3 @@
-package isha.trial.hello.world;
-
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,6 +16,7 @@ package isha.trial.hello.world;
  * limitations under the License.
  */
 
+package isha.trial.hello.world;
 import java.util.HashMap;
 
 import org.apache.flink.api.common.functions.FilterFunction;
