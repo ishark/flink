@@ -77,7 +77,7 @@ public class BenchmarkJob {
 				env.addSource(gen).addSink(new WordCounter());
 				break;
 			case NOT_CHAINED:
-				env.addSource(gen).startNewChain().addSink(new WordCounter());
+				env.addSource(gen).disableChaining().addSink(new WordCounter());
 				break;
 			case ISOLATED_RESOURCES:
 				env.addSource(gen).isolateResources().addSink(new WordCounter());

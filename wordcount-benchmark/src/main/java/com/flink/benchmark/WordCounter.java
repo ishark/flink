@@ -46,19 +46,19 @@ public class WordCounter implements SinkFunction<byte[]>, Checkpointed<WordCount
 			firstTime = false;
 		}
 		count++;
-		if (count % 10000 == 0) {
-			logger.info("count = {}", count);
-			logger.info("time = {}", System.currentTimeMillis() - startmillis);
-		} else if (count == 1000000) {
+		if (count % 1000000 == 0) {
 			// Add millis for 1 million
 			logger.info("count = {}", count);
 			logger.info("time = {}", System.currentTimeMillis() - startmillis);
 			millis.add(System.currentTimeMillis() - startmillis);
 		} else if (count == Integer.MAX_VALUE) {
 			logger.info("count = {}", count);
-			logger.info("time = {}", System.currentTimeMillis() - startmillis);
-			count = 0;
+			long time = System.currentTimeMillis() - startmillis;
+			logger.info("time = {}", time);
 			logger.info("=========One round of int MAX_VALUE values=======");
+			logger.info("=========Average tuples {}=========", count / time);
+			count = 0;
+			startmillis = System.currentTimeMillis();
 		}
 		if (millis.size() == 10) {
 			millis.clear();
