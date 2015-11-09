@@ -49,7 +49,9 @@ public class WordCounter implements SinkFunction<byte[]>, Checkpointed<WordCount
 		if (count % 1000000 == 0) {
 			// Add millis for 1 million
 			logger.info("count = {}", count);
-			logger.info("time = {}", System.currentTimeMillis() - startmillis);
+			long time = System.currentTimeMillis() - startmillis;
+			logger.info("time = {}", time);
+			logger.info("Average Records Processed per second = {}", count/time);
 			millis.add(System.currentTimeMillis() - startmillis);
 		} else if (count == Integer.MAX_VALUE) {
 			logger.info("count = {}", count);
